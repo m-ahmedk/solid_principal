@@ -3,7 +3,7 @@ using SOLID.Repository.Interface;
 
 namespace SOLID.Repository.Service
 {
-    public class EmailService : IEmailService
+    public class EmailService
     {
         MailgunSender _mailgunSender;
 
@@ -12,9 +12,9 @@ namespace SOLID.Repository.Service
             _mailgunSender = mailgunSender;
         }
 
-        public bool SendEmail(string email)
+        public async Task<bool> SendEmail(string email)
         {
-            return _mailgunSender.SendMessage();
+            return _mailgunSender.SendMessage(email);
         }
 
         public bool ValidateEmail(string email)
