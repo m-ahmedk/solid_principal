@@ -24,7 +24,7 @@ namespace SOLID.Models
             this.from = configuration.GetSection("Mailgun:From").Value;
         }
 
-        public override bool SendMessage()
+        public override bool SendMessage(string email)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace SOLID.Models
                 request.AddParameter("domain", domain, ParameterType.UrlSegment);
                 request.Resource = "{domain}/messages";
                 request.AddParameter("from", from);
-                request.AddParameter("to", "bar@example.com");
+                request.AddParameter("to", email);
                 request.AddParameter("subject", "Hello");
                 request.AddParameter("text", "Testing some Mailgun awesomness!");
 

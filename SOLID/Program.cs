@@ -1,12 +1,22 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SOLID.Models;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+
+#region Add Database Context
+builder.Services.AddDbContext<AppDBContext>(x =>
+                x.UseSqlServer(
+                    configuration.GetConnectionString("DefaultConnection"),
+                    y => y.UseNetTopologySuite()));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+#endregion
 
 var app = builder.Build();
 
@@ -17,14 +27,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
-#region Add Database Context
-builder.Services.AddDbContext<AppDBContext>(options =>
-                options.UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection"),
-                    x => x.UseNetTopologySuite()));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-#endregion
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
