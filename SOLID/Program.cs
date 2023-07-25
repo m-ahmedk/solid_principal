@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SOLID.Models;
+using SOLID.Repository.Interface;
+using SOLID.Repository.Service.OCP;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,9 @@ builder.Services.AddDbContext<AppDBContext>(x =>
                     y => y.UseNetTopologySuite()));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 #endregion
+
+builder.Services.AddTransient<IPaymentProcessor, CreditCardPayment>(); 
+builder.Services.AddTransient<IPaymentProcessor, PaypalPayment>();
 
 var app = builder.Build();
 
