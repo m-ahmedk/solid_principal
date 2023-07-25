@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SOLID.Repository.Interface;
-using SOLID.Repository.Service;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 
 namespace SOLID.Repository.Service.SRP
 {
+    // User only registers
+    // Validate or send email is not relevant to User
+
     public class UserService : Controller
     {
         EmailService _emailService;
@@ -26,7 +28,7 @@ namespace SOLID.Repository.Service.SRP
                 // email validation
                 if (!_emailService.ValidateEmail(email))
                 {
-                    throw new ValidationException("Email is not an email");
+                    throw new ValidationException("Email is not valid");
                 }
 
                 var user = new User(email, password);
