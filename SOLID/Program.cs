@@ -1,8 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using SOLID.Models;
 using SOLID.Repository.Interface;
+using SOLID.Repository.Service.DIP;
+using SOLID.Repository.Service.Factory;
 using SOLID.Repository.Service.OCP;
+using SOLID.Repository.Service.SRP;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +26,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddTransient<IPaymentProcessor, CreditCardPayment>(); 
 builder.Services.AddTransient<IPaymentProcessor, PaypalPayment>();
+
+// Register services (all used in NotificationFactory, as same interface is used for different implementation)
+builder.Services.AddTransient<IInstanceFactory<INotification>, NotificationFactory>();
+builder.Services.AddScoped<INotification, EmailNotification>();
+builder.Services.AddScoped<INotification, SMSNotification>();
+
 
 var app = builder.Build();
 
