@@ -21,6 +21,7 @@ namespace SOLID.Repository.Service.OCP
             System.Diagnostics.Debug.WriteLine("Order created successfully!");
         }
 
+        // OCP implemented as Process Order doesn't know which paymentProcess is used
         public async Task<bool> ProcessOrder(int orderId, IPaymentProcessor paymentProcess)
         {
             bool result = false;
