@@ -8,11 +8,11 @@ namespace SOLID.Controllers.OCP
     public class OrderController : Controller
     {
         private readonly OrderService _orderService;
-        private readonly IPaymentProcessor _creditCardPayment;
-        private readonly IPaymentProcessor _payPalPayment;
+        private readonly CreditCardPayment _creditCardPayment;
+        private readonly PaypalPayment _payPalPayment;
 
-        public OrderController(OrderService orderService, IPaymentProcessor creditCardPayment, 
-            IPaymentProcessor payPalPayment)
+        public OrderController(OrderService orderService, CreditCardPayment creditCardPayment,
+            PaypalPayment payPalPayment)
         {
             _orderService = orderService;
             _creditCardPayment = creditCardPayment;
